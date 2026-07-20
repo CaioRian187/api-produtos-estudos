@@ -5,6 +5,9 @@ import com.api.produtos.dtos.ProdutoResponseDTO;
 import com.api.produtos.entities.Produto;
 import com.api.produtos.repositories.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,5 +29,10 @@ public class ProdutoService {
                 produto.getDataCriacao(),
                 produto.getDataUpdate()
         );
+    }
+
+    public Page<Produto> findAll(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return this.produtoRepository.findAll(pageable);
     }
 }
