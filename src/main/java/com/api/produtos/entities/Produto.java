@@ -34,4 +34,10 @@ public class Produto {
 
     @UpdateTimestamp
     private LocalDateTime dataUpdate;
+
+    public Produto(String nome, BigDecimal preco, Boolean ativo) {
+        this.nome = nome;
+        this.preco = preco;
+        this.ativo = ativo;
+    }
 }
