@@ -19,15 +19,15 @@ public class ProdutoService {
     public ProdutoResponseDTO create(ProdutoRequestDTO dto){
         Produto produto = new Produto(dto.nome(), dto.preco(), dto.ativo());
 
-        this.produtoRepository.save(produto);
+        Produto produtoSalvo = this.produtoRepository.save(produto);
 
         return new ProdutoResponseDTO(
-                produto.getId(),
-                produto.getNome(),
-                produto.getPreco(),
-                produto.getAtivo(),
-                produto.getDataCriacao(),
-                produto.getDataUpdate()
+                produtoSalvo.getId(),
+                produtoSalvo.getNome(),
+                produtoSalvo.getPreco(),
+                produtoSalvo.getAtivo(),
+                produtoSalvo.getDataCriacao(),
+                produtoSalvo.getDataUpdate()
         );
     }
 
