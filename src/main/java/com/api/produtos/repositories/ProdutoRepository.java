@@ -1,5 +1,6 @@
 package com.api.produtos.repositories;
 
+import com.api.produtos.dtos.ProdutoResponseDTO;
 import com.api.produtos.entities.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
@@ -40,6 +42,20 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query(value = "select * from produto where nome = :nome", nativeQuery = true)
     List<Produto> buscarPorNomeSQLNativo(String nome);
+
+    @Query("""
+        SELECT new com.api.produtos.dtos.ProdutoResponseDTO(
+            p.id,
+            p.nome,
+            p.preco,
+            p.ativo,
+            p.dataCriacao,
+            p.dataUpdate
+        )
+        FROM produto p
+        WHERE p.id = :id
+    """)
+    Optional<ProdutoResponseDTO> findDtoById(Long id);
 
 
     // JOIN => É uma operação em SQL que permite combinar dados de duas ou mais tabelas

@@ -28,4 +28,9 @@ public class ProdutoController {
     public ResponseEntity<Page<Produto>> findAll(@RequestParam("page") int page, @RequestParam("size") int size){
         return ResponseEntity.status(HttpStatus.OK).body(this.produtoService.findAll(page, size));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDTO> findById(@PathVariable("id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.produtoService.findById(id));
+    }
 }

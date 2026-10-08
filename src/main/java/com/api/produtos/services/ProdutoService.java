@@ -8,7 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +38,13 @@ public class ProdutoService {
     public Page<Produto> findAll(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         return this.produtoRepository.findAll(pageable);
+    }
+
+    public ProdutoResponseDTO findById(Long id){
+        return this.produtoRepository.findDtoById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "Produto não encontrado."
+                ));
     }
 }
