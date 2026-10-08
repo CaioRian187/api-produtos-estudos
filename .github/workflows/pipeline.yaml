@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribuion: 'temurin'
+          distribution: 'temurin'
           cache: maven
 
       # Buildando o projeto no ambiente
