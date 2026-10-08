@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+on:
+  # Quando for efetuado push para as branchs (main e develop) será executados os jobs
+  push:
+    branches:
+      - main
+      - develop
+  # Quando for efetuado pull request para as branchs (main e develop) será executados os jobs
+  pull_request:
+    branches:
+      - main
+      - develop
+
+# Descrevendos os jobs
+jobs:
+  build-and-tests:
+    # Designando o Ubuntu-latest como ambiente
+    runs-on: ubuntu-latest
+    # Sequência de passos
+    steps:
+      # Copiando o código para dentro do ambiente linux criado anteriormente
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Instalando e preparando todo o setup para utilizar o java no nosso ambiente
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribuion: 'temurin'
+          cache: maven
+
+      # Buildando o projeto no ambiente
+      - name: Build project
+        run: mvn clean compile
+
+      # Executanto todos os testes unitários
+      - name: Run unit tests
+        uses: mvn test
+
+      # Salvando os relatórios detalhados dos testes como artefato
+      - name: Upload Surefire Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefile-reports
+          path: target/surefile-reports/
